@@ -32,12 +32,17 @@ function operate (num1, num2, operator) {
 
 function clearDisplay () {
   display.innerText = ''
+  num1 = ''
+  num2 = ''
+  operator = ''
 }
 
 function updateDisplay (text) {
   let displayValue = display.innerText
   if (displayValue === '0') {
     displayValue = text
+  } else if (operators.includes(displayValue.charAt(displayValue.length - 1)) && operators.includes(text)) {
+    displayValue = displayValue.slice(0, -1) + text
   } else {
     displayValue += text
   }
@@ -45,39 +50,50 @@ function updateDisplay (text) {
   return displayValue
 }
 
+function getAnswer () {
+  const answer = operate(num1, num2, operator)
+  clearDisplay()
+  displayValue = updateDisplay(answer)
+  return answer
+}
+
 const display = document.querySelector('#display')
-const operators = ['+', '-', '/', '%']
+const operators = ['+', '-', '*', '/', '%']
 let num1 = ''
 let num2 = ''
 let operator = ''
+const answer = ''
 
 const calButtons = document.querySelectorAll('.calc-button')
 
 calButtons.forEach((button) => {
   button.addEventListener('click', () => {
     const value = button.innerText
-    let displayValue = updateDisplay(value)
-    console.log(value)
-    console.log(typeof (value))
+    const displayValue = updateDisplay(value)
 
     // check if operator assigned
     // if operator is assigned then assign
     // value to second number
     // else to first
-    if (value === '=') {
-      const answer = operate(num1, num2, operator)
+    if (value === 'AC') {
       clearDisplay()
-      displayValue = updateDisplay(answer)
-    } else if (operators.includes(operator)) {
+    } else if (value === '=') {
+      num1 = getAnswer()
+    } else if (operators.includes(operator) && (num1 !== '') && (!operators.includes(value))) {
       num2 += value
+    } else if (value.includes(operator) && num2 !== '') {
+      num1 = getAnswer()
+    } else if (operators.includes(value) && operator !== '' && num2 !== '') {
+      num1 = getAnswer()
+      operator = value
+      updateDisplay(value)
     } else if (operators.includes(value)) {
       operator = value
     } else {
       num1 += value
     }
-
-    console.log(num1)
-    console.log(num2)
-    console.log(operator)
+    console.log('Number 1: ' + num1)
+    console.log('Number 2: ' + num2)
+    console.log('operator: ' + operator)
   })
 })
