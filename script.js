@@ -51,7 +51,10 @@ function updateDisplay (text) {
 }
 
 function getAnswer () {
-  const answer = operate(num1, num2, operator)
+  let answer = operate(num1, num2, operator)
+  if (answer === 'Invalid operator!') {
+    answer = '0'
+  }
   clearDisplay()
   displayValue = updateDisplay(answer)
   return answer
@@ -62,7 +65,6 @@ const operators = ['+', '-', '*', '/', '%']
 let num1 = ''
 let num2 = ''
 let operator = ''
-const answer = ''
 
 const calButtons = document.querySelectorAll('.calc-button')
 
@@ -71,10 +73,6 @@ calButtons.forEach((button) => {
     const value = button.innerText
     const displayValue = updateDisplay(value)
 
-    // check if operator assigned
-    // if operator is assigned then assign
-    // value to second number
-    // else to first
     if (value === 'AC') {
       clearDisplay()
     } else if (value === '=') {
