@@ -70,6 +70,42 @@ function getAnswer () {
   return answer.toFixed(5)
 }
 
+function backspace () {
+  // delete last entered character
+  // updateDisplay adds <- to the display string
+  // so use -3 to get the deleted character
+  let displayValue = display.innerText
+
+  // if displayValue is just three characters
+  // then it will be value like: 2<-
+  // which should be reset to zero
+  if (displayValue.length === 3) {
+    displayValue = '0'
+  } else {
+    displayValue = displayValue.slice(0, -3)
+  }
+  display.innerText = displayValue
+  return displayValue
+}
+
+function parseDisplay (displayValue) {
+  // set global variables based on values in display
+  for (let i = 0; i < displayValue.length; i++) {
+    if (operators.includes(displayValue[i])) {
+      const values = displayValue.split(displayValue[i])
+      if (values.length === 2) {
+        num1 = values[0]
+        num2 = values[1]
+      } else if (values.length === 1) {
+        num1 = values[0]
+      }
+      break
+    }
+    // if operator not found then only one number set
+    num1 = displayValue
+  }
+}
+
 const display = document.querySelector('#display')
 const operators = ['+', '-', '*', '/', '%']
 let num1 = ''
@@ -85,6 +121,9 @@ calButtons.forEach((button) => {
 
     if (value === 'AC') {
       clearDisplay()
+    } else if (value === '<-') {
+      const displayValue = backspace()
+      parseDisplay(displayValue)
     } else if (value === '=') {
       num1 = getAnswer()
     } else if (operators.includes(operator) && (num1 !== '') && (!operators.includes(value))) {
