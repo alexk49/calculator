@@ -79,7 +79,9 @@ function backspace () {
   // if displayValue is just three characters
   // then it will be value like: 2<-
   // which should be reset to zero
-  if (displayValue.length === 3) {
+  // also if 0 is deleted displayValue will just be <-
+  // so length will be 2, and should be reset to 0
+  if (displayValue.length === 3 || displayValue.length === 2) {
     displayValue = '0'
   } else {
     displayValue = displayValue.slice(0, -3)
