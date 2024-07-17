@@ -15,6 +15,7 @@ function divide (num1, num2) {
 }
 
 function operate (num1, num2, operator) {
+  // performs calculator operation
   num1 = parseInt(num1)
   num2 = parseInt(num2)
   if (operator === '+') {
@@ -31,13 +32,17 @@ function operate (num1, num2, operator) {
 };
 
 function clearDisplay () {
-  display.innerText = ''
+  // used to reset calculator
+  display.innerText = '0'
   num1 = ''
   num2 = ''
   operator = ''
 }
 
 function updateDisplay (text) {
+  // set display value to pressed button text
+  // unless value already 0
+  // or if an operator is pressed twice
   let displayValue = display.innerText
   if (displayValue === '0') {
     displayValue = text
@@ -51,13 +56,15 @@ function updateDisplay (text) {
 }
 
 function getAnswer () {
+  // returns answer and updates display
+  // with answer to operation
   let answer = operate(num1, num2, operator)
   if (answer === 'Invalid operator!') {
     answer = '0'
   }
   clearDisplay()
   displayValue = updateDisplay(answer)
-  return answer
+  return answer.toFixed(5)
 }
 
 const display = document.querySelector('#display')
