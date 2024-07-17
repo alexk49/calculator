@@ -19,8 +19,8 @@ function divide (num1, num2) {
 
 function operate (num1, num2, operator) {
   // performs calculator operation
-  num1 = parseInt(num1)
-  num2 = parseInt(num2)
+  num1 = parseFloat(num1)
+  num2 = parseFloat(num2)
   if (operator === '+') {
     return add(num1, num2)
   } else if (operator === '-') {
@@ -105,10 +105,21 @@ function parseDisplay (displayValue) {
     }
     // if operator not found then only one number set
     if (displayValue === '0') {
-      num1 = ''
+      clearDisplay()
     } else {
       num1 = displayValue
+      num2 = ''
+      operator = ''
     }
+  }
+}
+
+function checkForDecimal (num, value) {
+  if (value !== '.') {
+    return false
+  } else {
+    console.log(num.includes('.'))
+    return num.includes('.')
   }
 }
 
@@ -133,7 +144,9 @@ calButtons.forEach((button) => {
     } else if (value === '=') {
       num1 = getAnswer()
     } else if (operators.includes(operator) && (num1 !== '') && (!operators.includes(value))) {
-      num2 += value
+      if (checkForDecimal(num2, value) === false) {
+        num2 += value
+      }
     } else if (value.includes(operator) && num2 !== '') {
       num1 = getAnswer()
     } else if (operators.includes(value) && operator !== '' && num2 !== '') {
@@ -143,7 +156,9 @@ calButtons.forEach((button) => {
     } else if (operators.includes(value)) {
       operator = value
     } else {
-      num1 += value
+      if (checkForDecimal(num1, value) === false) {
+        num1 += value
+      }
     }
     console.log('Number 1: ' + num1)
     console.log('Number 2: ' + num2)
