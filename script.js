@@ -104,7 +104,11 @@ function parseDisplay (displayValue) {
       break
     }
     // if operator not found then only one number set
-    num1 = displayValue
+    if (displayValue === '0') {
+      num1 = ''
+    } else {
+      num1 = displayValue
+    }
   }
 }
 
