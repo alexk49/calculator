@@ -117,6 +117,20 @@ function checkForDecimal (num, value) {
   }
 }
 
+function convertToPercent () {
+  let answer = ''
+  if (operator !== '') {
+    num1 = getAnswer()
+    answer = (num1 / 100)
+  } else {
+    num1 = parseFloat(num1)
+    answer = (num1 / 100)
+  }
+  clearDisplay()
+  updateDisplay(answer)
+  return answer.toFixed(5)
+}
+
 const display = document.querySelector('#display')
 const operators = ['+', '-', '*', '/', '%']
 let num1 = ''
@@ -138,6 +152,8 @@ calButtons.forEach((button) => {
       parseDisplay(displayValue)
     } else if (value === '=') {
       num1 = getAnswer()
+    } else if (value === '%') {
+      num1 = convertToPercent()
     } else if (operators.includes(operator) && (num1 !== '') && (!operators.includes(value))) {
       if (checkForDecimal(num2, value) === false) {
         num2 += value
@@ -159,8 +175,5 @@ calButtons.forEach((button) => {
         displayValue = updateDisplay(value)
       }
     }
-    console.log('Number 1: ' + num1)
-    console.log('Number 2: ' + num2)
-    console.log('operator: ' + operator)
   })
 })
