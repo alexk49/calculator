@@ -142,38 +142,52 @@ const calButtons = document.querySelectorAll('.calc-button')
 calButtons.forEach((button) => {
   button.addEventListener('click', () => {
     const value = button.innerText
-    let displayValue = display.innerText
-    // const displayValue = updateDisplay(value)
-
-    if (value === 'AC') {
-      clearDisplay()
-    } else if (value === '<-') {
-      const displayValue = backspace()
-      parseDisplay(displayValue)
-    } else if (value === '=') {
-      num1 = getAnswer()
-    } else if (value === '%') {
-      num1 = convertToPercent()
-    } else if (operators.includes(operator) && (num1 !== '') && (!operators.includes(value))) {
-      if (checkForDecimal(num2, value) === false) {
-        num2 += value
-        displayValue = updateDisplay(value)
-      }
-    } else if (value.includes(operator) && num2 !== '') {
-      num1 = getAnswer()
-      displayValue = updateDisplay(value)
-    } else if (operators.includes(value) && operator !== '' && num2 !== '') {
-      num1 = getAnswer()
-      operator = value
-      updateDisplay(value)
-    } else if (operators.includes(value)) {
-      operator = value
-      displayValue = updateDisplay(value)
-    } else {
-      if (checkForDecimal(num1, value) === false) {
-        num1 += value
-        displayValue = updateDisplay(value)
-      }
-    }
+    main(value)
   })
 })
+
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Enter') {
+    main('=')
+  } else if (event.key === 'Backspace') {
+    main('AC')
+  } else if (operators.includes(event.key) || isNaN(event.key) === false) {
+    main(event.key)
+  }
+}
+)
+
+function main (value) {
+  let displayValue = display.innerText
+  // const displayValue = updateDisplay(value)
+  if (value === 'AC') {
+    clearDisplay()
+  } else if (value === '<-') {
+    const displayValue = backspace()
+    parseDisplay(displayValue)
+  } else if (value === '=') {
+    num1 = getAnswer()
+  } else if (value === '%') {
+    num1 = convertToPercent()
+  } else if (operators.includes(operator) && (num1 !== '') && (!operators.includes(value))) {
+    if (checkForDecimal(num2, value) === false) {
+      num2 += value
+      displayValue = updateDisplay(value)
+    }
+  } else if (value.includes(operator) && num2 !== '') {
+    num1 = getAnswer()
+    displayValue = updateDisplay(value)
+  } else if (operators.includes(value) && operator !== '' && num2 !== '') {
+    num1 = getAnswer()
+    operator = value
+    updateDisplay(value)
+  } else if (operators.includes(value)) {
+    operator = value
+    displayValue = updateDisplay(value)
+  } else {
+    if (checkForDecimal(num1, value) === false) {
+      num1 += value
+      displayValue = updateDisplay(value)
+    }
+  }
+}
