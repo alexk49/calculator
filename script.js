@@ -72,19 +72,13 @@ function getAnswer () {
 
 function backspace () {
   // delete last entered character
-  // updateDisplay adds <- to the display string
-  // so use -3 to get the deleted character
   let displayValue = display.innerText
 
-  // if displayValue is just three characters
-  // then it will be value like: 2<-
-  // which should be reset to zero
-  // also if 0 is deleted displayValue will just be <-
-  // so length will be 2, and should be reset to 0
-  if (displayValue.length === 3 || displayValue.length === 2) {
-    displayValue = '0'
+  // if only one digit then reset display
+  if (displayValue.length === 1) {
+    clearDisplay()
   } else {
-    displayValue = displayValue.slice(0, -3)
+    displayValue = displayValue.slice(0, -1)
   }
   display.innerText = displayValue
   return displayValue
@@ -100,16 +94,16 @@ function parseDisplay (displayValue) {
         num2 = values[1]
       } else if (values.length === 1) {
         num1 = values[0]
+        break
       }
-      break
-    }
-    // if operator not found then only one number set
-    if (displayValue === '0') {
-      clearDisplay()
-    } else {
-      num1 = displayValue
-      num2 = ''
-      operator = ''
+      // if operator not found then only one number set
+      if (displayValue === '0') {
+        clearDisplay()
+      } else {
+        num1 = displayValue
+        num2 = ''
+        operator = ''
+      }
     }
   }
 }
@@ -134,7 +128,8 @@ const calButtons = document.querySelectorAll('.calc-button')
 calButtons.forEach((button) => {
   button.addEventListener('click', () => {
     const value = button.innerText
-    const displayValue = updateDisplay(value)
+    let displayValue = display.innerText
+    // const displayValue = updateDisplay(value)
 
     if (value === 'AC') {
       clearDisplay()
@@ -146,18 +141,22 @@ calButtons.forEach((button) => {
     } else if (operators.includes(operator) && (num1 !== '') && (!operators.includes(value))) {
       if (checkForDecimal(num2, value) === false) {
         num2 += value
+        displayValue = updateDisplay(value)
       }
     } else if (value.includes(operator) && num2 !== '') {
       num1 = getAnswer()
+      displayValue = updateDisplay(value)
     } else if (operators.includes(value) && operator !== '' && num2 !== '') {
       num1 = getAnswer()
       operator = value
       updateDisplay(value)
     } else if (operators.includes(value)) {
       operator = value
+      displayValue = updateDisplay(value)
     } else {
       if (checkForDecimal(num1, value) === false) {
         num1 += value
+        displayValue = updateDisplay(value)
       }
     }
     console.log('Number 1: ' + num1)
