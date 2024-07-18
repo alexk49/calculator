@@ -2,7 +2,7 @@
   border: solid;
   text-align: center;
   width: 400px;
-  height: 450px;
+  height: 460px;
   margin: 0 auto;
   padding: 4px;
 }
@@ -10,11 +10,22 @@
 #display {
   list-style-type: none;
   text-align: center;
-  width: 390px;
+  width: 380px;
   height: 50px;
   border: solid;
   padding: 2px;
+  margin: 2px;
 }
 
 .calc-button {
+  border: solid;
+  border-radius: 6px;
+  width: 90px;
+  height: 75px;
+  padding: 2px;
+  margin: 2px;
+}
+
+#clear {
+  width: 180px;
 }
