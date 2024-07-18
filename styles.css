@@ -5,16 +5,20 @@
   height: 460px;
   margin: 0 auto;
   padding: 4px;
+  font-size: medium;
 }
 
 #display {
-  list-style-type: none;
-  text-align: center;
   width: 380px;
   height: 50px;
   border: solid;
-  padding: 2px;
+  padding: 4px;
   margin: 2px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  font-size: 3.5rem;
+  border-radius: 6px;
 }
 
 .calc-button {
@@ -24,8 +28,11 @@
   height: 75px;
   padding: 2px;
   margin: 2px;
+  font-size: math;
 }
 
 #clear {
-  width: 180px;
+  /* needs to cover two button lengths
+  double width + padding/margin */
+  width: 190px;
 }
