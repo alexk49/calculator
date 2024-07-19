@@ -67,7 +67,7 @@ function getAnswer () {
   }
   clearDisplay()
   displayValue = updateDisplay(answer)
-  return answer.toFixed(5)
+  return answer
 }
 
 function backspace () {
@@ -76,12 +76,13 @@ function backspace () {
 
   // if only one digit then reset display
   if (displayValue.length === 1) {
+    displayValue = '0'
     clearDisplay()
   } else {
     displayValue = displayValue.slice(0, -1)
   }
   display.innerText = displayValue
-  return displayValue
+  return displayValue.toString()
 }
 
 function parseDisplay (displayValue) {
@@ -112,7 +113,6 @@ function checkForDecimal (num, value) {
   if (value !== '.') {
     return false
   } else {
-    console.log(num.includes('.'))
     return num.includes('.')
   }
 }
@@ -128,7 +128,7 @@ function convertToPercent () {
   }
   clearDisplay()
   updateDisplay(answer)
-  return answer.toFixed(5)
+  return answer
 }
 
 const display = document.querySelector('#display')
@@ -150,8 +150,10 @@ document.addEventListener('keydown', (event) => {
   if (event.key === 'Enter') {
     main('=')
   } else if (event.key === 'Backspace') {
+    main('<-')
+  } else if (event.key === 'Escape') {
     main('AC')
-  } else if (operators.includes(event.key) || isNaN(event.key) === false) {
+  } else if (operators.includes(event.key) || isNaN(event.key) === false || event.key === '.') {
     main(event.key)
   }
 }
@@ -159,11 +161,11 @@ document.addEventListener('keydown', (event) => {
 
 function main (value) {
   let displayValue = display.innerText
-  // const displayValue = updateDisplay(value)
   if (value === 'AC') {
     clearDisplay()
   } else if (value === '<-') {
     const displayValue = backspace()
+
     parseDisplay(displayValue)
   } else if (value === '=') {
     num1 = getAnswer()
